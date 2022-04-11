@@ -1,0 +1,142 @@
+#!/bin/bash
+print_message () {
+
+    local messages
+    local message
+
+    messages=(
+        "Buhuu!"
+        "Weißt du denn gar nichts?"
+        "RTFM!"
+        "Haha, n00b!"
+        "Wow! Das war beeindruckend falsch!"
+        "Erbärmlich!"
+        "Der Schlimmste heute!"
+        "Alarmstufe n00b!"
+        "Dein Antrag auf Gehaltskürzung wurde abgeschickt!"
+        "lol"
+        "u suk"
+        "lol... plz"
+        "plz deinstallieren"
+        "Und der Darwin-Preis geht an.... ${USER}!"
+        "FEHLERHAFTER_INKOMPETENTER_BENUTZER"
+        "Inkompetenz ist auch eine Form von Kompetenz"
+        "Schlecht."
+        "Täusche es vor, bis du es schaffst!"
+        "Was soll das...? Amateurstunde!?"
+        "Komm schon! Du kannst es schaffen!"
+        "Netter Versuch."
+        "Was ist, wenn ... du das nächste Mal einen richtigen Befehl tippst!"
+        "Was ist, wenn ich dir sage ... das es möglich ist, gültige Befehle einzugeben."
+        "Du sprichst kein Computer????"
+        "Das ist nicht Windows."
+        "Vielleicht solltest du die Kommandozeile in Ruhe lassen..."
+        "Bitte geh von der Tastatur weg!"
+        "Fehlercode: 1D10T"
+        "ACHTUNG! ALLES TURISTEN UND NONTEKNISCHEN SCHAULUSTIGEN! DIE KOMPUTERMASCHINE IST NICHT FÜR DER GEFINGERPOKEN UND MITTENGRABEN! ODERWISE IST LEICHT ZU SCHNAPPEN DER SPRINGENWERK, BLOWENFUSEN UND POPPENCORKEN MIT SPITZENSPARKEN. IST NICHT FÜR GEWERKEN BEI DUMMKOPFEN. DER RUBBERNECKEN SIGHTSEEREN KEEPEN DAS COTTONPICKEN HÄNDER IN DIE TASCHEN MUSS. ZO RELAXEN UND WATSCHEN DER BLINKENLICHTEN".
+        "Pro-Tipp: Tippe einen gültigen Befehl ein!"
+        "Gehen Sie nach draußen."
+        "Dies ist keine Suchmaschine."
+        "(°°）︵ "
+        "\\_(ツ)_/"
+        "Also, ich werde einfach weitermachen und rm -rf / für Sie laufen lassen."
+        "Warum bist du so blöd?!"
+        "Vielleicht sind Computer nichts für dich..."
+        "Warum tust du mir das an?!"
+        "Hast du nichts Besseres zu tun?!"
+        "Ich denke _ernst_ über 'rm -rf /'- mich selbst nach..."
+        "Das ist der Grund, warum du Ihre Kinder nur einmal im Monat sehen kannst."
+        "Darum mag dich niemand."
+        "Versuchst du es überhaupt?!"
+        "Versuch das nächste Mal, dein Gehirn zu benutzen!"
+        "Meine Tastatur ist kein Touchscreen!"
+        "Befehle, willkürliches Kauderwelsch, wen interessiert das!"
+        "Falsche Befehle tippen, was?"
+        "Bist du immer so blöd oder gibst du dir heute besondere Mühe?!"
+        "Bist als Baby auf den Kopf gefallen, hm?"
+        "Das Gehirn ist nicht alles. In deinem Fall ist es nichts."
+        "Ich weiß nicht, was dich so dumm macht, aber es funktioniert wirklich."
+        "Du bist nicht so schlimm, wie die Leute sagen, du bist viel, viel schlimmer."
+        "Zweimal Unrecht ergibt kein Recht, nimm dir ein Beispiel an deinen Eltern."
+        "Du musst auf einer Autobahn geboren worden sein, denn dort passieren die meisten Unfälle."
+        "Wenn das, was du nicht weißt, dich nicht verletzen kann, bist du unverwundbar."
+        "Wenn Unwissenheit Glückseligkeit ist, musst du der glücklichste Mensch auf Erden sein."
+        "Du bist der Beweis, dass Gott einen Sinn für Humor hat."
+        "Versuche es weiter, eines Tages wirst du etwas Intelligentes tun!"
+        "Wenn Scheiße Musik wäre, wärst du ein Orchester."
+        "Wie oft muss ich spülen, bevor du weggehst?"
+    )
+
+    # If CMD_NOT_FOUND_MSGS array is populated use those messages instead of the defaults
+    [[ -n ${CMD_NOT_FOUND_MSGS} ]] && messages=( "${CMD_NOT_FOUND_MSGS[@]}" )
+
+    # If CMD_NOT_FOUND_MSGS_APPEND array is populated append those to the existing messages
+    [[ -n ${CMD_NOT_FOUND_MSGS_APPEND} ]] && messages+=( "${CMD_NOT_FOUND_MSGS_APPEND[@]}" )
+
+    # Seed RANDOM with an integer of some length
+    RANDOM=$(od -vAn -N4 -tu < /dev/urandom)
+
+    # Print a randomly selected message, but only about half the time to annoy the user a
+    # little bit less.
+    if [[ $((${RANDOM} % 2)) -lt 1 ]]; then
+        message=${messages[${RANDOM} % ${#messages[@]}]}
+        printf "\\n  %s\\n\\n" "$(tput bold)$(tput setaf 1)${message}$(tput sgr0)" >&2
+    fi
+}
+
+function_exists () {
+    # Zsh returns 0 even on non existing functions with -F so use -f
+    declare -f $1 > /dev/null
+    return $?
+}
+
+#
+# The idea below is to copy any existing handlers to another function
+# name and insert the message in front of the old handler in the
+# new handler. By default, neither bash or zsh has has a handler function
+# defined, so the default behaviour is replicated.
+#
+# Also, ensure the handler is only copied once. If we do not ensure this
+# the handler would add itself recursively if this file happens to be
+# sourced multiple times in the same shell, resulting in a neverending
+# stream of messages.
+#
+
+#
+# Zsh
+#
+if function_exists command_not_found_handler; then
+    if ! function_exists orig_command_not_found_handler; then
+        eval "orig_$(declare -f command_not_found_handler)"
+    fi
+else
+    orig_command_not_found_handler () {
+        printf "zsh: Befehl nicht gefunden! %s\\n" "$1" >&2
+        return 127
+    }
+fi
+
+command_not_found_handler () {
+    print_message
+    orig_command_not_found_handler "$@"
+}
+
+
+#
+# Bash
+#
+if function_exists command_not_found_handle; then
+    if ! function_exists orig_command_not_found_handle; then
+        eval "orig_$(declare -f command_not_found_handle)"
+    fi
+else
+    orig_command_not_found_handle () {
+        printf "%s: %s: Befehl nicht gefunden!\\n" "$0" "$1" >&2
+        return 127
+    }
+fi
+
+command_not_found_handle () {
+    print_message
+    orig_command_not_found_handle "$@"
+}
