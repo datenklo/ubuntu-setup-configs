@@ -1,0 +1,24 @@
+#!/bin/bash
+#
+#######################################
+#
+# Example for downloading and installing a Package in .deb-format:
+# --------------------------------------------------------------
+# url=$(curl -s https://web.site/downloads | grep Ubuntu64 | cut -d\" -f2)
+# wget "$url"
+# dpkg -i "${url##*/}"
+#
+##############################################
+# Get Visual Studio Code and install it
+##############################################
+sudo snap install --classic code
+#
+##############################################
+# Get VMWare Workstation and install it
+##############################################
+#
+cd ~/Downloads
+wget --user-agent="Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0" https://www.vmware.com/go/getworkstation-linux
+chmod +x ~/Downloads/getworkstation-linux
+sudo sh ~/Downloads/getworkstation-linux
+#
