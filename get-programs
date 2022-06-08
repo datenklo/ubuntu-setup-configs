@@ -35,3 +35,11 @@ tar -cf vmnet.tar vmnet-only
 sudo cp -v vmmon.tar vmnet.tar /usr/lib/vmware/modules/source/
 sudo vmware-modconfig --console --install-all
 #
+# now some personalization
+# Install powerline-shell
+sudo apt install python3-pip
+pip install powerline-shell
+# copy insult-libary to /etc
+sudo cp etc/bash.command-not-found /etc
+# append various aliases, powerline and insulter to .bashrc
+cat append-to-your-bashrc >> ~.bashrc
