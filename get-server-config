@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # First: Update repositories:
-sudo apt update && sudo apt upgrade -y && sudo apt dist-upgrade -y && sudo apt autoremove && sudo apt autoclean && sudo apt clean && sudo snap refresh
+sudo apt update && sudo apt upgrade -y && sudo apt dist-upgrade -y && sudo apt autoremove -y && sudo apt autoclean && sudo apt clean && sudo snap refresh
 # now some personalization
 # Install powerline-shell
 sudo apt install python3-pip
