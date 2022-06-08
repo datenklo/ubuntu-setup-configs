@@ -1,7 +1,4 @@
 #
-# Append these lines to your .bashrc. Install Dependencies first!
-#
-#
 # Powerline-shell (please install powerline-shell with pip first!)
 #
 function _update_ps1() {

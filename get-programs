@@ -8,6 +8,17 @@
 # wget "$url"
 # dpkg -i "${url##*/}"
 #
+# First: Update repositories:
+sudo apt update
+sudo snap refresh
+# now some personalization
+# Install powerline-shell
+sudo apt install python3-pip
+pip install powerline-shell
+# copy insult-libary to /etc
+sudo cp etc/bash.command-not-found /etc
+# append various aliases, powerline and insulter to .bashrc
+cat append-to-your-bashrc >> ~.bashrc
 ##############################################
 # Get Visual Studio Code and install it
 ##############################################
@@ -21,6 +32,7 @@ cd ~/Downloads
 wget --user-agent="Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0" https://www.vmware.com/go/getworkstation-linux
 chmod +x ~/Downloads/getworkstation-linux
 sudo sh ~/Downloads/getworkstation-linux
+sudo rm ~/Downloads/getworkstation-linux
 #
 # Fix for fucked up Workstation:
 # Get hostmodules
@@ -34,12 +46,4 @@ tar -cf vmnet.tar vmnet-only
 # copy hostmodules to vmwaredir and compile them into kernel
 sudo cp -v vmmon.tar vmnet.tar /usr/lib/vmware/modules/source/
 sudo vmware-modconfig --console --install-all
-#
-# now some personalization
-# Install powerline-shell
-sudo apt install python3-pip
-pip install powerline-shell
-# copy insult-libary to /etc
-sudo cp etc/bash.command-not-found /etc
-# append various aliases, powerline and insulter to .bashrc
-cat append-to-your-bashrc >> ~.bashrc
+
