@@ -22,3 +22,16 @@ wget --user-agent="Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firef
 chmod +x ~/Downloads/getworkstation-linux
 sudo sh ~/Downloads/getworkstation-linux
 #
+# Fix for fucked up Workstation:
+# Get hostmodules
+wget https://github.com/mkubecek/vmware-host-modules/archive/workstation-16.2.3.tar.gz
+# unpack file and enter subdir
+tar -xzf workstation-16.2.3.tar.gz
+cd vmware-host-modules-workstation-16.2.3/
+# pack needed hostmodules
+tar -cf vmmon.tar vmmon-only
+tar -cf vmnet.tar vmnet-only
+# copy hostmodules to vmwaredir and compile them into kernel
+sudo cp -v vmmon.tar vmnet.tar /usr/lib/vmware/modules/source/
+sudo vmware-modconfig --console --install-all
+#
