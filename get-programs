@@ -46,4 +46,3 @@ tar -cf vmnet.tar vmnet-only
 # copy hostmodules to vmwaredir and compile them into kernel
 sudo cp -v vmmon.tar vmnet.tar /usr/lib/vmware/modules/source/
 sudo vmware-modconfig --console --install-all
-
