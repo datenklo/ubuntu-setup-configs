@@ -18,7 +18,7 @@ pip install powerline-shell
 # copy insult-libary to /etc
 sudo cp etc/bash.command-not-found /etc
 # append various aliases, powerline and insulter to .bashrc
-cat append-to-your-bashrc >> ~.bashrc
+cat append-to-your-bashrc >> ~/.bashrc
 ##############################################
 # Get Visual Studio Code and install it
 ##############################################
