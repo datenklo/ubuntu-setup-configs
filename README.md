@@ -1,7 +1,21 @@
 
 # ubuntu-setup-configs
 
-some scripts and configfiles for comfy operations
+some scripts and configfiles for comfy operations.
+
+You have to clone this repository to your (Ubuntu-) Machine and start either the desktop or Serverscript:
+
+git clone https://github.com/datenklo/ubuntu-setup-configs.git
+
+cd ubuntu-setup-configs
+
+./get-server-config
+
+OR
+
+./get-desktop-config
+
+(Desktop has additional Apps for install (VMWare Workstation with Kernelfix and Visual Studio Code)
 
 # Some Hint
 
