@@ -17,8 +17,11 @@ sudo apt install python3-pip
 pip install powerline-shell
 # copy insult-libary to /etc
 sudo cp etc/bash.command-not-found /etc
-# append various aliases, powerline and insulter to .bashrc
-cat append-to-your-bashrc >> ~/.bashrc
+cp ~/.bashrc /root/.bashrc
+# enable F-Keys as primary-Keys on Apple-keyboard (Wired and Wireless BT TKL-Version). 
+# I use both. Comment out when not needed (i.e. on your macbook)
+echo options hid_apple fnmode=2 | sudo tee -a /etc/modprobe.d/hid_apple.conf
+sudo update-initramfs -u -k all
 ##############################################
 # Get Visual Studio Code and install it
 ##############################################
@@ -36,13 +39,17 @@ sudo rm ~/Downloads/getworkstation-linux
 #
 # Fix for fucked up Workstation:
 # Get hostmodules
-wget https://github.com/mkubecek/vmware-host-modules/archive/workstation-16.2.3.tar.gz
+wget https://github.com/mkubecek/vmware-host-modules/archive/workstation-16.2.4.tar.gz
 # unpack file and enter subdir
-tar -xzf workstation-16.2.3.tar.gz
-cd vmware-host-modules-workstation-16.2.3/
+tar -xzf workstation-16.2.4.tar.gz
+cd vmware-host-modules-workstation-16.2.4/
 # pack needed hostmodules
 tar -cf vmmon.tar vmmon-only
 tar -cf vmnet.tar vmnet-only
 # copy hostmodules to vmwaredir and compile them into kernel
 sudo cp -v vmmon.tar vmnet.tar /usr/lib/vmware/modules/source/
 sudo vmware-modconfig --console --install-all
+# Enter Serial-Number (Change to your Key! This one is just a Placeholde and not Working!)
+sudo /usr/lib/vmware/bin/licenseTool enter FC11K-00DE0-0800Z-04Z5E-MC8T6 "" "" 16.0+ "VMware Workstation" /usr/lib/vmware
+# Patch support for MacOS-VMs into Workstation (We use Unlocker 4.2.2 for VMware Workstation/Player from David Parsons for it)
+sudo VMWare-unlocker/linux/./unlock
