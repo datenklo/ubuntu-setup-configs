@@ -5,6 +5,7 @@ print_message () {
     local message
 
     messages=(
+        "Bist du etwa zu spät?"
         "Buhuu!"
         "Weißt du denn gar nichts?"
         "RTFM!"
