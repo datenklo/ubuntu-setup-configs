@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# First: Update repositories:
-sudo apt update && sudo apt upgrade -y && sudo apt dist-upgrade -y && sudo apt autoremove -y && sudo apt autoclean && sudo apt clean && sudo snap refresh
-# now some personalization
+# First: Update repositories and installed packages:
+sudo apt update && sudo apt upgrade -y && sudo apt dist-upgrade -y && sudo apt autoremove -y && sudo apt autoclean -y && sudo apt clean && sudo snap refresh
+# now some stuff to make life easier:
 #
 # Install powerline-shell
 sudo apt install python3-pip
@@ -12,7 +12,17 @@ sudo pip install powerline-shell
 sudo cp etc/bash.command-not-found /etc
 # append various aliases, powerline and insulter to .bashrc and copy it also to /root
 cat append-to-your-bashrc >> ~/.bashrc
-cp ~/.bashrc /root/.bashrc
+sudo cp ~/.bashrc /root/.bashrc
 # enable F-Keys as primary-Keys on Apple-keyboard (Wired and Wireless BT TKL-Version)
 echo options hid_apple fnmode=2 | sudo tee -a /etc/modprobe.d/hid_apple.conf
 sudo update-initramfs -u -k all
+# Remove the "Ubuntu-Pro"-stuff
+sudo pro config set apt_news=false
+sudo dpkg-divert --divert /etc/apt/apt.conf.d/20apt-esm-hook.conf.bak --rename --local /etc/apt/apt.conf.d/20apt-esm-hook.conf
+# Speedup Boottime by disable not used Services and remove cloud-init
+sudo apt purge cloud-init
+sudo systemctl disable iscsid.service
+sudo systemctl disable open-iscsi.service
+clear
+@echo All done! Now reboot you System please. For further Speedup you can add a "optional: true" to your netplan-yaml right after the Interface-Tag
+# EOF
