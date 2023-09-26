@@ -39,12 +39,12 @@ chmod +x ~/Downloads/getworkstation-linux
 sudo sh ~/Downloads/getworkstation-linux >> ~/install.log
 sudo rm ~/Downloads/getworkstation-linux
 #
-# Fix for fucked up Workstation:
+# Fix for fu**ed up Workstation Kernelmodules:
 # Get hostmodules
-wget https://github.com/mkubecek/vmware-host-modules/archive/workstation-16.2.4.tar.gz
+wget https://github.com/mkubecek/vmware-host-modules/archive/workstation-17.0.2.tar.gz
 # unpack file and enter subdir
-tar -xzf workstation-16.2.4.tar.gz
-cd vmware-host-modules-workstation-16.2.4/
+tar -xzf workstation-17.0.2.tar.gz
+cd vmware-host-modules-workstation-17.0.2/
 # pack needed hostmodules
 tar -cf vmmon.tar vmmon-only
 tar -cf vmnet.tar vmnet-only
@@ -52,7 +52,7 @@ tar -cf vmnet.tar vmnet-only
 sudo cp -v vmmon.tar vmnet.tar /usr/lib/vmware/modules/source/
 sudo vmware-modconfig --console --install-all  >> ~/install.log
 # Enter Serial-Number (Change to your Key! This one is just a Placeholde and not Working!)
-sudo /usr/lib/vmware/bin/licenseTool enter FC11K-00DE0-0800Z-04Z5E-MC8T6 "" "" 16.0+ "VMware Workstation" /usr/lib/vmware
+sudo /usr/lib/vmware/bin/licenseTool enter MC60H-DWHD5-H80U9-6V85M-8280D "" "" 17.0+ "VMware Workstation" /usr/lib/vmware
 # Patch support for MacOS-VMs into Workstation (We use Unlocker 4.2.2 for VMware Workstation/Player from David Parsons for it)
 sudo ~/Downloads/VMWare-unlocker/linux/./unlock
 sudo rm -r ~/Downloads/VMWare-unlocker
