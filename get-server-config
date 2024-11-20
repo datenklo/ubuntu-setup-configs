@@ -6,8 +6,8 @@ sudo apt update && sudo apt upgrade -y && sudo apt dist-upgrade -y && sudo apt a
 #
 # Install powerline-shell
 sudo apt install python3-pip
-pip install powerline-shell --break-system-packages
-sudo pip install powerline-shell --break-system-packages
+pip install powerline-shell --user
+sudo pip install powerline-shell --user
 # copy insult-libary to /etc
 sudo cp etc/bash.command-not-found /etc
 # append various aliases, powerline and insulter to .bashrc and copy it also to /root
